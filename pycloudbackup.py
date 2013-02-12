@@ -397,8 +397,12 @@ def backup(filename, destination="cloudfiles", **kwargs):
 
     log.info("Compressing...")
     out = tempfile.TemporaryFile()
-    with tarfile.open(fileobj=out, mode="w:gz") as tar:
-        tar.add(filename, arcname=arcname)
+#    with tarfile.open(fileobj=out, mode="w:gz") as tar:
+#        tar.add(filename, arcname=arcname)
+
+    tarz = tarfile.open(fileobj=out, mode="w:gz")
+    tarz.add(filename, arcname=arcname)
+    tarz.close()
 
     if password == "None" or password == "none":
         password = None
