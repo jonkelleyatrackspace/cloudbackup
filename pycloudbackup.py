@@ -345,28 +345,9 @@ class CloudfilesBackend:
         """ Refactor complete! """
         container = self.con.create_container(self.container)
 
-        # A hack to handle network errors.
-        tryattempts = 0
-        while tryattempts < 3:
-            try:
-                o = container.create_object(keyname)
-                o.write(filename)
-            except ssl.SSLError:
-                tryattempts += 1
-                log.error("ssl.SSLError exception, network error maybe? Trying again. [TryNumber: " + str(tryattempts) + "]")
-                o = container.create_object(keyname)
-                o.write(filename)
-            except SSLError:
-                tryattempts += 1
-                log.error("ssl.SSLError exception, network error maybe? Trying again. [TryNumber: " + str(tryattempts) + "]")
-                o = container.create_object(keyname)
-                o.write(filename)
-            except ssl:
-                tryattempts += 1
-                log.error("ssl.SSLError exception, network error maybe? Trying again. [TryNumber: " + str(tryattempts) + "]")
-                o = container.create_object(keyname)
-                o.write(filename)
-                
+        o = container.create_object(keyname)
+        o.write(filename)
+
     def ls(self):
         """ Refactor complete! """
         #{u'bytes': 25605, u'last_modified': u'2012-11-29T14:47:32.365100',
